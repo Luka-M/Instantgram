@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Fine Uploader - jQuery Wrapper Minimal Demo</title>
+<link href="/static/fineuploader.css" rel="stylesheet">
+</head>
+<body>
+<div id="jquery-wrapped-fine-uploader"></div>
+ 
+<script src="/static/jquery-latest.js"></script>
+<script src="/static/jquery.fineuploader-3.0.js"></script>
+<script>
+	$(document).ready(function () {
+		$('#jquery-wrapped-fine-uploader').fineUploader({
+			request: {
+				endpoint: '/upload2/{{tag}}/'
+			},
+			debug: true
+		});
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="/static/jquery-latest.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+</head>
+<body>
+<h1>Tagz</h1>
+<div id="test"> </div>
+
+<script>
+$(function(){
+	$.ajax({
+		url: "http://127.0.0.1:8000/api/v1/tag/?format=json",
+		  contentType: 'application/json; charset=utf-8',
+          type: 'GET',
+          dataType: 'json',
+		  data : { limit:"0" },
+		  success: function (result) { 
+			$.each(result.objects, function(i,item){
+				$("#test").append("<a href=\"/tag/" + item.tagtext + "/\">"+item.tagtext+"</a>").append("  ");
+				$("#test").append("<a href=\"/upload/" + item.tagtext + "/\">upload</a>").append('<br />');
+			  });
+		  },
+		  error : function(xhr, status){ alert(status); }
+	});
+});
+</script>
+
+</body>
+</html>

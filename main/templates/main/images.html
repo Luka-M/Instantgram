@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>img{ height: 100px; float: left; }</style>
+<script src="/static/jquery-latest.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+</head>
+<body>
+
+<div id="test"> </div>
+
+<script>
+$(function(){
+	$.ajax({
+		url: "http://127.0.0.1:8000/api/v1/image/?format=json&tag={{tag}}",
+		  contentType: 'application/json; charset=utf-8',
+          type: 'GET',
+          dataType: 'json',
+		  data : { limit:"0" },
+		  success: function (result) { 
+			$.each(result.objects, function(i,item){
+			  $("#test").append("<img src=\"" + item.url + "\" />").append('<br />');
+			});
+		  },
+		  error : function(xhr, status){ alert(status); }
+	});
+});
+</script>
+
+</body>
+</html>
