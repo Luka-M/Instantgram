@@ -2,6 +2,7 @@
 from tastypie.resources import ModelResource, Resource, fields
 from main.models import Image
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
+import random
 
 class ImageResource(ModelResource):
     class Meta:
@@ -28,7 +29,8 @@ class TagObject(object):
 
 class TagResource(Resource):
     uuid = fields.CharField(attribute='uuid')
-    tagtext = fields.CharField(attribute='tagtext')
+    text = fields.CharField(attribute='text')
+    weight = fields.IntegerField(attribute='weight')
 
     class Meta:
         resource_name = 'tag'
@@ -54,8 +56,9 @@ class TagResource(Resource):
 		
         for p in queryset:
             new_obj = TagObject()
-            new_obj.tagtext = p
+            new_obj.text = p
             new_obj.uuid = queryset.index(p)
+            new_obj.weight = random.randint(1, 10)
             rez.append(new_obj)
         return rez
 
