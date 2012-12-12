@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-<style>img{ height: 100px; float: left; }</style>
-<script src="/static/jquery-latest.js"></script>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
-</head>
-<body>
+{% extends "main/base.html" %}
 
-<div id="test"> </div>
+{% block content %}
+
 
 <script>
 $(function(){
@@ -19,7 +13,34 @@ $(function(){
 		  data : { limit:"0" },
 		  success: function (result) { 
 			$.each(result.objects, function(i,item){
-			  $("#test").append("<img src=\"" + item.url + "\" />").append('<br />');
+				$('#entry-listing').append(
+					$('<article>').attr('class', 'post-215 entry box format-image').append(
+						$('<div>').attr('class', 'entry-content-cnt').append(
+							$('<div>').attr('class', 'entry-content').append(
+								$('<a>').attr('href', item.url).attr('class','thumb').attr('data-lightbox','fancybox[215]').append(
+									$('<img>').attr('src', item.url).attr('class', 'attachment-ci_listing_thumb')
+								)
+							)
+						)
+					).append(
+						$('<div>').attr('class', 'entry-desc').append(
+							$('<h1>').append(
+								$('<a>').attr('href', '#').attr('title', '').append('')
+							)
+						).append(
+							$('<div>').attr('class', 'entry-meta group').append(
+								$('<a>').attr('class','comments-no').attr('href','#').append('4')
+							).append(
+								$('<a>').attr('class','heart-this loved').attr('data-post-id','215')
+								.attr('href','#').attr('title','You love this.').append(
+									$('<span>').attr('class','heart-no').append('7')
+								)
+							).append(
+								$('<a>').attr('class','entry-permalink').attr('href','#').attr('title','').append('Slija')
+							)
+						)
+					)
+				);
 			});
 		  },
 		  error : function(xhr, status){ alert(status); }
@@ -27,5 +48,26 @@ $(function(){
 });
 </script>
 
-</body>
-</html>
+
+<div id="box-container">
+	<div id="entry-listing" class="group">
+		<article id="post-215" class="post-215 category-people category-photography category-pretty-girls entry box format-image">
+		<div class="entry-content-cnt">
+			<div class="entry-content">
+				<a href="/static/villaluka.jpg" class="thumb" data-lightbox="fancybox[215]" title=""><img src="/static/villaluka.jpg" class="attachment-ci_listing_thumb" alt="" title=""></a>
+			</div>
+		</div>
+
+		<div class="entry-desc">
+			<h1><a href="#" title="Permalink to High fashion model in autumn/winter clothes wearing sunglasses.">High fashion model in autumn/winter clothes wearing sunglasses.</a></h1>
+
+			<div class="entry-meta group">
+				<a class="comments-no" href="#">4</a> <a data-post-id="215" class="heart-this loved" href="#" title="You love this."><span class="heart-no">7</span></a> <a class="entry-permalink" href="#" title="Permalink to High fashion model in autumn/winter clothes wearing sunglasses.">High fashion model in autumn/winter clothes wearing sunglasses.</a>
+			</div>
+		</div>
+	</article>
+	</div>
+</div>
+
+{% endblock %}
+

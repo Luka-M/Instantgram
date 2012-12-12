@@ -1,37 +1,52 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+{% extends "main/base.html" %}
 
+{% block topnav %}
+<ul id="navigation" class="group">
+	<li><a href="#">New</a></li>
+	<li><a href="#">Popular</a></li>
+	<li><a href="#">Near</a></li>
+	<li><a href="#">All</a></li>
+</ul>
+{% endblock %}
+				
+{% block content %}
 
-<script src="/static/jquery-latest.js"></script>
-<script type="text/javascript" src="/static/jqcloud-1.0.2.min.js"></script>
-<link rel="stylesheet" type="text/css" href="/static/jqcloud.css" />
-</head>
-<body>
-<h1>Tagz</h1>
-<div id="test"> </div>
-<div id="clovd" style="width: 550px; height: 350px;"></div>
-<script>
-$(function(){
-	$.ajax({
-		url: "http://127.0.0.1:8000/api/v1/tag/?format=json",
-		  contentType: 'application/json; charset=utf-8',
-          type: 'GET',
-          dataType: 'json',
-		  data : { limit:"0" },
-		  success: function (result) { 
-			$.each(result.objects, function(i,item){
-				$("#test").append("<a href=\"/tag/" + item.text + "/\">"+item.text+"</a>").append("  ");
-				$("#test").append("<a href=\"/upload/" + item.text + "/\">upload</a>").append('<br />');
-			});
-	        $("#clovd").jQCloud(result.objects);
-  
-		  },
-		  error : function(xhr, status){ alert(status); }
-	});      
-});
-</script>
+<script type="text/javascript" src="/static/js/jqcloud-1.0.2.min.js"> </script>
 
-</body>
-</html>
+<div class="inner-container full group">
+	<div class="box-hold group">
+		<article class="post-6 page type-page status-publish hentry entry box" id="post-6">
+
+			<div class="entry-content group">
+				<div id="clovd" style="height: 350px;"></div>
+				<script>
+				$(function(){
+					$.ajax({
+						url: "http://127.0.0.1:8000/api/v1/tag/?format=json",
+						contentType: 'application/json; charset=utf-8',
+						type: 'GET',
+						dataType: 'json',
+						success: function (result) { 
+							var cloudlist =new Array();
+							$.each(result.objects, function(i,item){
+								cloudlist.push({text: item.text, weight:4, link: "/tag/"+item.text});
+							});
+							$("#clovd").jQCloud(cloudlist);				  
+						  },
+						error : function(xhr, status){ alert(status); }
+					});      
+				});
+				</script>
+				<br />
+				<br />
+				
+				<p>New - prikazuje tagove koji su imali bar jednu dodanu sliku u zadnja 24 sata</p>
+				<p>Popular - prikazuje 20 % tagova s najviše slika</p>
+				<p>Near - prikazuje tagove sa slikama napravljenim unutar 10 km od lokacije korisnika</p>
+				<p>All - prikazuje sve tagove</p>
+			</div>
+
+		</article>
+	</div><!-- .box-hold -->
+</div>
+{% endblock %}
