@@ -1,15 +1,9 @@
 from django.conf.urls import patterns, include, url
-from main.api.resources import ImageResource, TagResource
-from tastypie.api import Api
+from main.api.urls import v1_api
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
-
-v1_api = Api(api_name='v1')
-v1_api.register(ImageResource())
-v1_api.register(TagResource())
-
 
 urlpatterns = patterns('',
     # Examples:
