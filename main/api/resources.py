@@ -5,14 +5,26 @@ from tastypie.authorization import Authorization
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from instantgram import settings
 import md5
+import geo
 
 class TagResource(ModelResource):
     
     class Meta:
         queryset = Tag.objects.all()
         resource_name = 'tag'
-        
+        filtering = {"weigth": ALL, "name": ALL, "last_update": ALL}
+        ordering = ["weigth"]
         authorization = Authorization()
+        
+    def apply_filters(self, request, applicable_filters):
+        latitude = request.GET.get('lat')
+        longitude = request.GET.get('lon')
+        if latitude and longitude:
+            queryset = Tag.objects.calcNearTags(latitude, longitude)
+        else:
+            queryset = self.get_object_list(request)
+        return queryset
+        
 
 class ImageResource(ModelResource):
     img = fields.CharField(attribute='img', default='')
@@ -22,7 +34,7 @@ class ImageResource(ModelResource):
         queryset = Image.objects.all()
         resource_name = 'image'
         filtering = {
-            "tag": ALL,
+            "tags": ALL,
         }
         authorization = Authorization()
         
@@ -36,4 +48,4 @@ class ImageResource(ModelResource):
         bundle.data['md5hash'] = md5.new(base64string).hexdigest()
         bundle.data['url'] = settings.MEDIA_ROOT + name
             
-        return ;
+        return bundle;

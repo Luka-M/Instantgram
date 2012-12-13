@@ -29,7 +29,7 @@
 						success: function (result) { 
 							var cloudlist =new Array();
 							$.each(result.objects, function(i,item){
-								cloudlist.push({text: item.text, weight:4, link: "/tag/"+item.text});
+								cloudlist.push({text: item.name, weight:item.weigth, link: "/tag/"+item.name});
 							});
 							$("#clovd").jQCloud(cloudlist);				  
 						  },

@@ -154,3 +154,6 @@ LOGGING = {
         },
     }
 }
+
+# Distance, in meters, that will be used to calculate near tags
+NEAR_DISTANCE = 10000
