@@ -11,28 +11,48 @@
 {% endblock %}
 				
 {% block content %}
+
+
+
 <script type="text/javascript">
 $(function(){
 
-	$(".new").click(function(){
-		$.ajax({
-			url: "http://127.0.0.1:8000/api/v1/tag/?format=json&last_update__gt={{datetime}}",
-			contentType: 'application/json; charset=utf-8',
-			type: 'GET',
-			dataType: 'json',
-			success: function (result) { 
-				var cloudlist =new Array();
-				$.each(result.objects, function(i,item){
-					cloudlist.push({text: item.name, weight:item.weigth, link: "/tag/"+item.name});
-				});
-				$("#clovd").jQCloud(cloudlist);				  
-			  },
-			error : function(xhr, status){ alert(status); }
-		});
+	getTagz("http://127.0.0.1:8000/api/v1/tag/?format=json", {"order_by" : "-weigth"}); // show new tagz
+	var lati = 1000;
+	var longi = 1000;
+	$.geolocator.geolocate({
+		callback: function(geolocation_data) {
+			lati = geolocation_data.latitude;
+			longi = geolocation_data.longitude;
+		},
 	});
 
+	$(".new").click(function(){getTagz("http://127.0.0.1:8000/api/v1/tag/?format=json", {"order_by" : "-weigth"})});
+	$(".popular").click(function(){getTagz("http://127.0.0.1:8000/api/v1/tag/?format=json", {"order_by" : "-weigth"})});
+	$(".near").click(function(){getTagz("http://127.0.0.1:8000/api/v1/tag/?format=json", {"lat" : lati, "lon" : longi})});
+	$(".all").click(function(){getTagz("http://127.0.0.1:8000/api/v1/tag/?format=json", {})});
 	
+	function getTagz(servurl, data)
+	{
+		$.ajax({
+				url: servurl,
+				contentType: 'application/json; charset=utf-8',
+				type: 'GET',
+				dataType: 'json',
+				data : data,
+				success: function (result) { 
+					var cloudlist = new Array();
+					$.each(result.objects, function(i,item){
+						cloudlist.push({text: item.name, weight:item.weigth, link: "/tag/"+item.name});
+					});
+					$("#clovd").empty();
+					$("#clovd").jQCloud(cloudlist);				  
+				  },
+				error : function(xhr, status){ alert(status); }
+			});
+	}
 });
+
 </script>
 <script type="text/javascript" src="/static/js/jqcloud-1.0.2.min.js"> </script>
 
@@ -42,14 +62,6 @@ $(function(){
 
 			<div class="entry-content group">
 				<div id="clovd" style="height: 350px;"></div>
-
-				<br />
-				<br />
-				
-				<p>New - prikazuje tagove koji su imali bar jednu dodanu sliku u zadnja 24 sata</p>
-				<p>Popular - prikazuje 20 % tagova s najviše slika</p>
-				<p>Near - prikazuje tagove sa slikama napravljenim unutar 10 km od lokacije korisnika</p>
-				<p>All - prikazuje sve tagove</p>
 			</div>
 
 		</article>

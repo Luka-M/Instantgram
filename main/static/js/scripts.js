@@ -19,7 +19,10 @@ jQuery(window).load( function($) {
     itemSelector: 'article.entry',
     transformsEnabled: false
   });
-
+  jQuery('#entry-listing').delegate( 'article.entry', 'click', function(){
+    jQuery(this).toggleClass('large');
+    jQuery('#entry-listing').isotope('reLayout');
+  });
 });
 
 jQuery(document).ready(function($) {
