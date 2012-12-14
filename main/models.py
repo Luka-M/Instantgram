@@ -2,6 +2,7 @@ from django.db import models
 from instantgram import settings
 from django.utils import timezone
 import geo
+import datetime
 
 class TagManager(models.Manager):
     
@@ -10,16 +11,24 @@ class TagManager(models.Manager):
         imgs = Image.objects.all()
         tags = []#
         excludes = []
+        
         for img in imgs:
-            imgPos = geo.xyz(float(img.lat), float(img.lon))
-            distance = geo.distance(myPos, imgPos)
-            if (distance <= settings.NEAR_DISTANCE):
-                for t in img.tags.all():
-                    if t not in tags:
-                        tags.append(t)
+            if img.lat and img.lon:
+                imgPos = geo.xyz(float(img.lat), float(img.lon))
+                distance = geo.distance(myPos, imgPos)
+                if (distance <= settings.NEAR_DISTANCE):
+                    for t in img.tags.all():
+                        if t not in tags:
+                            tags.append(t)
         
         return tags
     
+    def newTags(self, deltaTime):
+        local = timezone.now()
+        local = local.replace(hour = local.hour - deltaTime)
+        
+        return Tags.objects.filter(last_update__gt=local)
+        
 class Tag(models.Model):
     name = models.CharField(max_length = 200, unique=True)
     weigth = models.IntegerField(default=1)
@@ -41,8 +50,8 @@ class Image(models.Model):
     md5hash = models.CharField(max_length=32, unique=True)
     url = models.CharField(max_length=200)
     pub_date = models.DateTimeField(auto_now=True)
-    lat = models.FloatField(default=0)
-    lon = models.FloatField(default=0)
+    lat = models.FloatField(default=0, null=True)
+    lon = models.FloatField(default=0, null=True)
     
     tags = models.ManyToManyField(Tag)
 

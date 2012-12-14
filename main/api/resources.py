@@ -18,8 +18,11 @@ class TagResource(ModelResource):
     def apply_filters(self, request, applicable_filters):
         latitude = request.GET.get('lat')
         longitude = request.GET.get('lon')
+        last = request.GET.get('last')
         if latitude and longitude:
             queryset = Tag.objects.calcNearTags(latitude, longitude)
+        elif last:
+            queryset = Tag.objects.newTags(last)
         else:
             queryset = self.get_object_list(request)
         return queryset
