@@ -5,7 +5,7 @@ from tastypie.authorization import Authorization
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from instantgram import settings
 import md5
-import geo
+
 
 class TagResource(ModelResource):
     
