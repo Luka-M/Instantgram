@@ -5,7 +5,10 @@ from tastypie.authorization import Authorization
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from instantgram import settings
 import md5
+<<<<<<< HEAD
 
+=======
+>>>>>>> remove geo
 
 class TagResource(ModelResource):
     
