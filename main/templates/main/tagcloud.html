@@ -17,7 +17,8 @@
 <script type="text/javascript">
 $(function(){
 
-	getTagz("http://127.0.0.1:8000/api/v1/tag/?format=json", {"order_by" : "-weigth"}); // show new tagz
+	var url =  "http://192.168.1.236:8000/api/v1/tag/?format=json"
+	getTagz(url, {"order_by" : "-weigth"}); // show new tagz
 	var lati = 1000;
 	var longi = 1000;
 	$.geolocator.geolocate({
@@ -27,10 +28,10 @@ $(function(){
 		},
 	});
 
-	$(".new").click(function(){getTagz("http://127.0.0.1:8000/api/v1/tag/?format=json", {"order_by" : "-weigth"})});
-	$(".popular").click(function(){getTagz("http://127.0.0.1:8000/api/v1/tag/?format=json", {"order_by" : "-weigth"})});
-	$(".near").click(function(){getTagz("http://127.0.0.1:8000/api/v1/tag/?format=json", {"lat" : lati, "lon" : longi})});
-	$(".all").click(function(){getTagz("http://127.0.0.1:8000/api/v1/tag/?format=json", {})});
+	$(".new").click(function(){getTagz(url, {"order_by" : "-weigth"})});
+	$(".popular").click(function(){getTagz(url, {"order_by" : "-weigth"})});
+	$(".near").click(function(){getTagz(url, {"lat" : lati, "lon" : longi})});
+	$(".all").click(function(){getTagz(url, {})});
 	
 	function getTagz(servurl, data)
 	{
