@@ -4,7 +4,10 @@ from main.models import Image, Tag
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from instantgram import settings
+from django.utils import timezone
+import base64
 import md5
+import os
 
 class TagResource(ModelResource):
     
@@ -30,6 +33,7 @@ class TagResource(ModelResource):
 
 class ImageResource(ModelResource):
     img = fields.CharField(attribute='img', default='')
+    ext = fields.CharField(attribute='ext', default='')
     tags = fields.ManyToManyField(TagResource, 'tags')
     
     class Meta:
@@ -41,13 +45,15 @@ class ImageResource(ModelResource):
         authorization = Authorization()
         
     def hydrate_img(self, bundle):
+        bundle.data['url'] = ''
         base64string = bundle.data['img']
-        name = bundle.data['title']
+        ext = bundle.data['ext']
+        name = bundle.data['title'] + timezone.now().strftime("%Y_%m_%d_%H_%M_%S_%f") +  base64.urlsafe_b64encode(os.urandom(settings.SALT_LENGHT)) + "." + ext
+        bundle.data['title'] = name
         fh = open(settings.MEDIA_ROOT + "images/" + name, "wb")
         fh.write(base64string.decode('base64'))
         fh.close()
         
         bundle.data['md5hash'] = md5.new(base64string).hexdigest()
-        bundle.data['url'] = settings.MEDIA_ROOT + name
             
         return bundle;

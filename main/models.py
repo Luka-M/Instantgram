@@ -59,7 +59,7 @@ class Image(models.Model):
         return self.name
     
     def save(self, *args, **kwargs):
-        url = settings.MEDIA_ROOT + self.title
+        self.url = settings.MEDIA_URL + self.title 
         if (Image.objects.filter(md5hash = self.md5hash).exists()):
             self.full_clean()
         super(Image, self).save(*args, **kwargs)
