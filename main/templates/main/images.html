@@ -5,12 +5,16 @@
 
 <script>
 $(function(){
+	(function poll(){
+	   setTimeout(function(){
+
 	$.ajax({
 		url: "http://127.0.0.1:8000/api/v1/image/?format=json&tag={{tag}}",
 		  contentType: 'application/json; charset=utf-8',
           type: 'GET',
           dataType: 'json',
-		  success: function (result) { 
+		  success: function (result) {
+			$('#entry-listing').empty();
 			$.each(result.objects, function(i,item){
 				$('#entry-listing').append(
 					$('<article>').attr('class', 'post-215 entry box format-image').append(
@@ -21,29 +25,16 @@ $(function(){
 								)
 							)
 						)
-					).append(
-						$('<div>').attr('class', 'entry-desc').append(
-							$('<h1>').append(
-								$('<a>').attr('href', '#').attr('title', '').append('')
-							)
-						).append(
-							$('<div>').attr('class', 'entry-meta group').append(
-								$('<a>').attr('class','comments-no').attr('href','#').append('4')
-							).append(
-								$('<a>').attr('class','heart-this loved').attr('data-post-id','215')
-								.attr('href','#').attr('title','You love this.').append(
-									$('<span>').attr('class','heart-no').append('7')
-								)
-							).append(
-								$('<a>').attr('class','entry-permalink').attr('href','#').attr('title','').append('Slija')
-							)
-						)
 					)
 				);
 			});
+			poll();
 		  },
 		  error : function(xhr, status){ alert(status); }
 	});
+	  }, 1000);
+	})();
+
 });
 </script>
 
@@ -53,17 +44,17 @@ $(function(){
 		<article id="post-215" class="post-215 category-people category-photography category-pretty-girls entry box format-image">
 		<div class="entry-content-cnt">
 			<div class="entry-content">
-				<a href="/static/villaluka.jpg" class="thumb" data-lightbox="fancybox[215]" title=""><img src="/static/villaluka.jpg" class="attachment-ci_listing_thumb" alt="" title=""></a>
+<img src="/static/villaluka.jpg" class="attachment-ci_listing_thumb" alt="" title="">
 			</div>
 		</div>
-
+<!--
 		<div class="entry-desc">
 			<h1><a href="#" title="Permalink to High fashion model in autumn/winter clothes wearing sunglasses.">High fashion model in autumn/winter clothes wearing sunglasses.</a></h1>
 
 			<div class="entry-meta group">
 				<a class="comments-no" href="#">4</a> <a data-post-id="215" class="heart-this loved" href="#" title="You love this."><span class="heart-no">7</span></a> <a class="entry-permalink" href="#" title="Permalink to High fashion model in autumn/winter clothes wearing sunglasses.">High fashion model in autumn/winter clothes wearing sunglasses.</a>
 			</div>
-		</div>
+		</div> -->
 	</article>
 	</div>
 </div>
