@@ -68,4 +68,28 @@ class Tag(models.Model):
             t = Tag.objects.filter(name = self.name)
             t.update(weigth = self.weigth + 1, last_update = timezone.now())
         else:
+<<<<<<< HEAD:main/models/tag.py
             super(Tag, self).save(*args, **kwargs)
+=======
+            super(Tag, self).save(*args, **kwargs)
+
+class Image(models.Model):
+    title = models.CharField(max_length=100)
+    md5hash = models.CharField(max_length=32, unique=True)
+    url = models.CharField(max_length=200)
+    pub_date = models.DateTimeField(auto_now=True)
+    lat = models.FloatField(default=0, null=True)
+    lon = models.FloatField(default=0, null=True)
+    
+    tags = models.ManyToManyField(Tag)
+
+    def __unicode__(self):
+        return self.name
+    
+    def save(self, *args, **kwargs):
+        self.url = settings.MEDIA_URL + "images/" + self.title 
+        if (Image.objects.filter(md5hash = self.md5hash).exists()):
+            self.full_clean()
+        super(Image, self).save(*args, **kwargs)
+        
+>>>>>>> luka:main/models.py

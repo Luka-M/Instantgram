@@ -10,19 +10,7 @@ jQuery(window).load( function($) {
     });
   }
 
-  jQuery('#entry-listing').isotope({
-    animationOptions: {
-      duration: 750,
-      easing: 'linear',
-      queue: false
-    },
-    itemSelector: 'article.entry',
-    transformsEnabled: false
-  });
-  jQuery('#entry-listing').delegate( 'article.entry', 'click', function(){
-    jQuery(this).toggleClass('large');
-    jQuery('#entry-listing').isotope('reLayout');
-  });
+
 });
 
 jQuery(document).ready(function($) {
