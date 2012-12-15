@@ -5,35 +5,36 @@
 
 <script>
 $(function(){
-	(function poll(){
-	   setTimeout(function(){
 
 	$.ajax({
-		url: "http://127.0.0.1:8000/api/v1/image/?format=json&tag={{tag}}",
+		url: "http://192.168.1.236:8000/api/v1/image/?format=json&tag={{tag}}",
 		  contentType: 'application/json; charset=utf-8',
           type: 'GET',
           dataType: 'json',
 		  success: function (result) {
-			$('#entry-listing').empty();
 			$.each(result.objects, function(i,item){
 				$('#entry-listing').append(
 					$('<article>').attr('class', 'post-215 entry box format-image').append(
 						$('<div>').attr('class', 'entry-content-cnt').append(
 							$('<div>').attr('class', 'entry-content').append(
-								$('<a>').attr('href', item.url).attr('class','thumb').attr('data-lightbox','fancybox[215]').append(
-									$('<img>').attr('src', item.url).attr('class', 'attachment-ci_listing_thumb')
-								)
+								$('<img>').attr('src', item.url).attr('class', 'attachment-ci_listing_thumb')
 							)
 						)
 					)
 				);
 			});
-			poll();
+			var $container = $('#entry-listing');
+			$container.isotope({
+				itemSelector : 'article.entry'
+			});
+			$container.delegate( 'article.entry', 'click', function(){
+				$(this).toggleClass('large');
+				$container.isotope('reLayout');
+			});
 		  },
 		  error : function(xhr, status){ alert(status); }
 	});
-	  }, 1000);
-	})();
+
 
 });
 </script>
@@ -41,21 +42,7 @@ $(function(){
 
 <div id="box-container">
 	<div id="entry-listing" class="group">
-		<article id="post-215" class="post-215 category-people category-photography category-pretty-girls entry box format-image">
-		<div class="entry-content-cnt">
-			<div class="entry-content">
-<img src="/static/villaluka.jpg" class="attachment-ci_listing_thumb" alt="" title="">
-			</div>
-		</div>
-<!--
-		<div class="entry-desc">
-			<h1><a href="#" title="Permalink to High fashion model in autumn/winter clothes wearing sunglasses.">High fashion model in autumn/winter clothes wearing sunglasses.</a></h1>
 
-			<div class="entry-meta group">
-				<a class="comments-no" href="#">4</a> <a data-post-id="215" class="heart-this loved" href="#" title="You love this."><span class="heart-no">7</span></a> <a class="entry-permalink" href="#" title="Permalink to High fashion model in autumn/winter clothes wearing sunglasses.">High fashion model in autumn/winter clothes wearing sunglasses.</a>
-			</div>
-		</div> -->
-	</article>
 	</div>
 </div>
 
