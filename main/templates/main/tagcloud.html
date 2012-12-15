@@ -18,7 +18,7 @@
 $(function(){
 
 	var url =  "http://192.168.1.236:8000/api/v1/tag/?format=json"
-	getTagz(url, {"order_by" : "-weigth"}); // show new tagz
+	getTagz(url, {"last" : "24"}); // show new tagz
 	var lati = 1000;
 	var longi = 1000;
 	$.geolocator.geolocate({
@@ -28,8 +28,8 @@ $(function(){
 		},
 	});
 
-	$(".new").click(function(){getTagz(url, {"order_by" : "-weigth"})});
-	$(".popular").click(function(){getTagz(url, {"order_by" : "-weigth"})});
+	$(".new").click(function(){getTagz(url, {"last" : "24"})});
+	$(".popular").click(function(){getTagz(url, {"order_by" : "-weigth", "limit" : "20"})});
 	$(".near").click(function(){getTagz(url, {"lat" : lati, "lon" : longi})});
 	$(".all").click(function(){getTagz(url, {})});
 	

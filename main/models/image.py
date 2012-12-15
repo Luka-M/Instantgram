@@ -47,7 +47,7 @@ class Image(models.Model):
 
     def __unicode__(self):
         """Overriden method for unicode representation of object."""
-        return self.name
+        return self.url
     
     def save(self, *args, **kwargs):
         """Overriden method for saving image object to disk, ann related data to db.

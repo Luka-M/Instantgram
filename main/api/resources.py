@@ -26,11 +26,11 @@ class TagResource(ModelResource):
         
         latitude = request.GET.get('lat')
         longitude = request.GET.get('lon')
-        last = int(request.GET.get('last'))
+        last = request.GET.get('last')
         if latitude and longitude:
             queryset = Tag.objects.calcNearTags(latitude, longitude)
         elif last:
-            queryset = Tag.objects.newTags(last)
+            queryset = Tag.objects.newTags(int(last))
         else:
             queryset = self.get_object_list(request)
         return queryset
