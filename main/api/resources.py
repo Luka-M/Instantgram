@@ -1,6 +1,6 @@
-# main/api/resources.py
 from tastypie.resources import ModelResource, Resource, fields
-from main.models import Image, Tag
+from main.models.image import Image, ImageManager
+from main.models.tag import Tag, TagManager
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from instantgram import settings
@@ -9,7 +9,10 @@ import base64
 import md5
 import os
 
+"""Module for defining API REST resources."""
+
 class TagResource(ModelResource):
+    """API resource for Tag object model."""
     
     class Meta:
         queryset = Tag.objects.all()
@@ -19,9 +22,11 @@ class TagResource(ModelResource):
         authorization = Authorization()
         
     def apply_filters(self, request, applicable_filters):
+        """Overriden Tastypie method for applying resource filter depending on type of incoming request."""
+        
         latitude = request.GET.get('lat')
         longitude = request.GET.get('lon')
-        last = request.GET.get('last')
+        last = int(request.GET.get('last'))
         if latitude and longitude:
             queryset = Tag.objects.calcNearTags(latitude, longitude)
         elif last:
@@ -32,6 +37,8 @@ class TagResource(ModelResource):
         
 
 class ImageResource(ModelResource):
+    """API resource for Image model."""
+    
     img = fields.CharField(attribute='img', default='')
     ext = fields.CharField(attribute='ext', default='')
     tags = fields.ManyToManyField(TagResource, 'tags')
@@ -42,9 +49,20 @@ class ImageResource(ModelResource):
         filtering = {
             "tags": ALL,
         }
-        authorization = Authorization()
-        
+        authorization = Authorization()    
+    
+    def apply_filters(self, request, applicable_filters):
+        """Overriden Tastypie method for applying resource filter depending on type of incoming request."""        
+        tag = request.GET.get('tag')
+        if tag:
+            queryset = Image.objects.filterByTags(tag)
+        else:
+            queryset = self.get_object_list(request)
+        return queryset
+    
     def hydrate_img(self, bundle):
+        """Overriden Tastypie method for parsing JSON data from incoming request."""
+        
         bundle.data['url'] = ''
         base64string = bundle.data['img']
         ext = bundle.data['ext']
