@@ -1,6 +1,10 @@
 {% extends "main/base.html" %}
 
 {% block topnav %}
+<nav>
+            <div class="wrap group">
+				
+
 
 <ul id="navigation" class="group">
 	<li><a href="#" class="new">New</a></li>
@@ -8,6 +12,8 @@
 	<li><a href="#" class="near">Near</a></li>
 	<li><a href="#" class="all">All</a></li>
 </ul>
+	</div><!-- .wrap < nav -->
+</nav>
 {% endblock %}
 				
 {% block content %}
@@ -17,7 +23,7 @@
 <script type="text/javascript">
 $(function(){
 
-	var url =  "http://192.168.1.236:8000/api/v1/tag/?format=json"
+	var url =  "http://127.0.0.1:8000/api/v1/tag/?format=json&limit=50"
 	getTagz(url, {"last" : "24"}); // show new tagz
 	var lati = 1000;
 	var longi = 1000;
@@ -27,7 +33,10 @@ $(function(){
 			longi = geolocation_data.longitude;
 		},
 	});
-
+	$(".searchform").submit(function(){
+		var text = $("#s1").val();
+		getTagz(url,{"name__contains" : text})
+	});
 	$(".new").click(function(){getTagz(url, {"last" : "24"})});
 	$(".popular").click(function(){getTagz(url, {"order_by" : "-weigth", "limit" : "20"})});
 	$(".near").click(function(){getTagz(url, {"lat" : lati, "lon" : longi})});

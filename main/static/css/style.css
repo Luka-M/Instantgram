@@ -485,7 +485,7 @@ Content
 /* Layout */
 
 #main {
-  padding: 40px 0 80px;
+  padding: 15px 0 80px;
 }
 
 /* Main Boxes Styling */
@@ -518,7 +518,7 @@ Content
 }
 .large
 {
-	width: 500px;
+	width: 534px;
 }
 .box .entry-content-cnt {
   padding: 8px;
@@ -548,7 +548,7 @@ Content
 
 .entry img {
   max-width: 100%;
-
+  opacity: 0.9;
   -moz-transition: all 0.2s linear;
   -webkit-transition: all 0.2s linear;
   -o-transition: all 0.2s linear;
@@ -557,7 +557,7 @@ Content
 }
 
 .entry img:hover {
-  opacity: 0.6;
+  opacity: 1;
 }
 
 .comments-no, .heart-this, .entry-permalink {

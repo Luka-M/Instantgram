@@ -32,7 +32,7 @@ class TagResource(ModelResource):
         elif last:
             queryset = Tag.objects.newTags(int(last))
         else:
-            queryset = self.get_object_list(request)
+            queryset = self.get_object_list(request).filter(**applicable_filters)
         return queryset
         
 

@@ -1,8 +1,9 @@
 from django.db import models
 from django.utils import timezone
 from instantgram import settings
+from datetime import datetime, timedelta
 from main import geo
-import datetime
+
 import main
 
 class TagManager(models.Manager):
@@ -29,15 +30,15 @@ class TagManager(models.Manager):
         
         return tags
     
-    def newTags(self, deltaTime):
+    def newTags(self, last):
         """
-        Returns tags added in last deltaTime hours.
+        Returns tags added in last `last` hours.
         """
         local = timezone.now()
-        local = local.replace(hour = local.hour - deltaTime)
+        delta = timedelta(hours = last)
+        local = local - delta
         
-        list = Tag.objects.filter(last_update__gt=local)
-        return list
+        return Tag.objects.filter(last_update__gt=local)
 
 
 class Tag(models.Model):

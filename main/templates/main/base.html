@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/static/css/style.css" type="text/css" >
     <link rel="stylesheet" href="/static/css/colors/red.css" type="text/css" >
     <link rel="stylesheet" href="/static/js/fancybox/source/jquery.fancybox.css" type="text/css" >
+    <link href="/static/css/fineuploader.css" rel="stylesheet">
 	<link rel="stylesheet" href="/static/css/jqcloud.css" type="text/css" >
     <script src="/static/js/modernizr.js" type="text/javascript" ></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
@@ -30,7 +31,7 @@
                     <aside class="widget group widget_ci_social_widget"><a href="#" class="icn twitter">Twitter</a> <a href="#" class="icn facebook">Facebook</a> <a href="#" class="icn pinterest">Pinterest</a> <a href="#" class="icn youtube">Youtube</a></aside>
 
                     <aside class="widget widget_search group">
-                        <form action="/" id="searchform2" class="searchform" method="get" role="search">
+                        <form id="searchform2" class="searchform">
                             <input size="27" type="text" title="Search" id="s2" class="s" name="s"> <a id="searchsubmit2" class="searchsubmit"><img src="/static/images/search.png" alt="GO"></a>
                         </form>
                     </aside>
@@ -48,20 +49,15 @@
                     <aside class="widget group widget_ci_social_widget"><a href="#" class="icn twitter">Twitter</a> <a href="#" class="icn facebook">Facebook</a> <a href="#" class="icn pinterest">Pinterest</a> <a href="#" class="icn youtube">Youtube</a></aside>
 
                     <aside class="widget widget_search group">
-                        <form action="/" id="searchform1" class="searchform" method="get" role="search">
+                        <form id="searchform1" class="searchform" onsubmit="return false">
                             <input size="27" type="text" title="Search" id="s1" class="s" name="s"> <a id="searchsubmit1" class="searchsubmit"><img src="/static/images/search.png" alt="GO"></a>
                         </form>
                     </aside>
                 </div><!-- .header-wgt -->
             </div><!-- .wrap < #header -->
         </div><!-- #site-head -->
-
-        <nav>
-            <div class="wrap group">
-				{% block topnav %}{% endblock %}
-
-            </div><!-- .wrap < nav -->
-        </nav>
+	{% block topnav %}{% endblock %}
+        
     </header>
 
     <div id="page">

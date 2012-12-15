@@ -85,7 +85,7 @@ jQuery(document).ready(function($) {
 
 });
 
-jQuery(window).load( function() {
+function setWidth() {
 
   // Page width calculations
 
@@ -105,42 +105,5 @@ jQuery(window).load( function() {
   }
 
   setContainerWidth();
-  loadAudioPlayer();
 
-});
-
-function loadAudioPlayer() {
-  jQuery(".format-audio").each(function() {
-    var $audio_id = jQuery(this).find(".audio-wrap").data("audio-id"),
-      $media = jQuery(this).find(".audio-wrap").data("audio-file"),
-      $play_id = '#jp-'+$audio_id,
-      $play_ancestor = '#jp-play-'+$audio_id,
-      $extension = $media.split('.').pop();
-
-    if ( $extension.toLowerCase() =='mp3' ) {
-      var $extension = 'mp3';
-    } else if ( $extension.toLowerCase() =='mp4' ||  $extension.toLowerCase() =='m4a' ) {
-      var $extension = 'm4a';
-    } else if ( $extension.toLowerCase() =='ogg' || $extension.toLowerCase() =='oga' ) {
-      var $extension = 'oga';
-    } else {
-      var $extension = '';
-    }
-
-
-    jQuery($play_id).jPlayer({
-      ready: function (event) {
-        var playerOptions = {
-          $extension: $media
-        };
-        playerOptions[$extension] = $media;
-        jQuery(this).jPlayer("setMedia", playerOptions);
-      },
-//      swfPath: '/js', uncomment this for swf support
-      supplied: $extension,
-      wmode: 'window',
-      cssSelectorAncestor: $play_ancestor
-    });
-
-  });
-}
+};
