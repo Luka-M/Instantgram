@@ -9,7 +9,7 @@
 			<h3>Tags</hr>
 			<br />
 			<form onsubmit="return false">
-			<input size="27" type="text" title="" id="tags" class="s" name="s"> 
+			<input size="27" type="text" title="" id="taginput" class="s" name="s"> 
 			</form>
 			<br />
 			<div id="jquery-wrapped-fine-uploader"></div>
@@ -27,18 +27,21 @@
 	$(document).ready(function () {
 		var lati = 1000;
 		var longi = 1000;
+
 		$.geolocator.geolocate({
 			callback: function(geolocation_data) {
 				lati = geolocation_data.latitude;
 				longi = geolocation_data.longitude;
-				$("#tags").val();
 			},
 		});
+
 		$('#jquery-wrapped-fine-uploader').fineUploader({
 			request: {
-					endpoint: '/upload2/' + '?lat=' + lati + '&lon=' + longi + "&tags=" + $("#tags").val()
+					endpoint: '/upload2/' + '?lat=' + lati + '&lon=' + longi
 				},
 			debug: true
+		}).on('submit', function(event, id, filename) {
+			$(this).fineUploader('setParams', {'tags': $("#taginput").val()});
 		});
 	});
 </script>

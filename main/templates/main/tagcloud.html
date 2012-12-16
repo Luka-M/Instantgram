@@ -27,8 +27,9 @@
 <script type="text/javascript">
 $(function(){
 	var embed = "<iframe height=\"500px\" width=\"500px\" src=\"http://team37.host25.com/embed/TAG/\"></iframe>";
-	$("#dialog p").html(embed.replace(/</g,"&lt;").replace(/>/g,"&gt;"));
-		
+	$("#dialog p").html(embed.replace(/</g,"&lt;").replace(/>/g,"&gt;") + "<br /><br /><a href=\"/embedtest\">Test example</a>");
+	
+	
 	var url =  "/api/v1/tag/?format=json&limit=50"
 	getTagz(url,  {"order_by" : "-weigth", "limit" : "50"}); // show new tagz
 	var lati = 1000;
@@ -87,7 +88,7 @@ $(function(){
 </div>
 <div id="dialog" title="Embed" >
     <p>
-	</p>
+	</p>	
 </div>
  
 {% endblock %}
