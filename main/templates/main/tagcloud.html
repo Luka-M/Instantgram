@@ -26,9 +26,11 @@
 
 <script type="text/javascript">
 $(function(){
-
+	var embed = "<iframe height=\"500px\" width=\"500px\" src=\"http://team37.host25.com/embed/TAG/\"></iframe>";
+	$("#dialog p").html(embed.replace(/</g,"&lt;").replace(/>/g,"&gt;"));
+		
 	var url =  "/api/v1/tag/?format=json&limit=50"
-	getTagz(url, {"last" : "24"}); // show new tagz
+	getTagz(url,  {"order_by" : "-weigth", "limit" : "50"}); // show new tagz
 	var lati = 1000;
 	var longi = 1000;
 	$.geolocator.geolocate({
@@ -41,11 +43,14 @@ $(function(){
 		var text = $("#s1").val();
 		getTagz(url,{"name__contains" : text})
 	});
+	$( "#dialog" ).dialog({
+            autoOpen: false
+			});
 	$(".new").click(function(){getTagz(url, {"last" : "24"})});
-	$(".popular").click(function(){getTagz(url, {"order_by" : "-weigth", "limit" : "20"})});
+	$(".popular").click(function(){getTagz(url, {"order_by" : "-weigth", "limit" : "50"})});
 	$(".near").click(function(){getTagz(url, {"lat" : lati, "lon" : longi, "rad" : "500"})});
 	$(".all").click(function(){getTagz(url, {})});
-	
+	$(".embed").click(function() {$( "#dialog" ).dialog( "open" );});
 	function getTagz(servurl, data)
 	{
 		$.ajax({
@@ -62,7 +67,7 @@ $(function(){
 					$("#clovd").empty();
 					$("#clovd").jQCloud(cloudlist);				  
 				  },
-				error : function(xhr, status){ alert(status); }
+				error : function(xhr, status){}
 			});
 	}
 });
@@ -80,4 +85,9 @@ $(function(){
 		</article>
 	</div><!-- .box-hold -->
 </div>
+<div id="dialog" title="Embed" >
+    <p>
+	</p>
+</div>
+ 
 {% endblock %}
