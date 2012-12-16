@@ -52,7 +52,7 @@ $(function(){
 				  timeout: 2000,
 				  dataType: 'json',
 				  success: function (result) {
-					var itemAdded = false;
+					var itemAdded = false;					
 					$.each(result.objects.reverse(), function(i,item){
 						var result = $.grep(imgs, function(e){ return e.id == item.id; });
 						if(result.length==0){
