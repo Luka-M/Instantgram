@@ -69,7 +69,7 @@ $(function(){
 					interval = 5000;
 					poll();
 				  },
-				  error : function(xhr, status){ alert(status); }
+				  error : function(xhr, status){ interval = 5000; poll(); }
 			});
 		}, interval);
 	})();

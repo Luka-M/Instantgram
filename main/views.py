@@ -16,11 +16,11 @@ def index(request):
 def tag(request, tagtext):
     return render_to_response('main/images.html', {"tag":tagtext})
 
-def upload(request, tagtext):
-    return render_to_response('main/upload.html', {"tag":tagtext})
+def upload(request):
+    return render_to_response('main/upload.html')
 
 @csrf_exempt
-def upload2(request, tagtext):
+def upload2(request):
     """Get uploaded file from form."""
     uploaded = request.read
     fileSize = int(uploaded.im_self.META["CONTENT_LENGTH"])
@@ -41,15 +41,19 @@ def upload2(request, tagtext):
     """Write image data to db."""
     latitude = request.GET.get('lat')
     longitude = request.GET.get('lon')
-    if Tag.objects.filter(name=tagtext).exists():
-        t = Tag.objects.get(name=tagtext)
-    else:
-        t = Tag(name = tagtext)
-        t.save()
+    tags = request.GET.get('tags').split(' ')
+
     image = Image(title = name, md5hash = mdfive, pub_date = timezone.now(), lat = latitude, lon = longitude)
     image.save()
-    image.tags.add(t)
-    image.save()
+
+    for tagtext in tags:
+        if Tag.objects.filter(name=tagtext).exists():
+            t = Tag.objects.get(name=tagtext)
+        else:
+            t = Tag(name = tagtext)
+            t.save()
+        image.tags.add(t)
+        image.save()
 
     return HttpResponse('{"success": true}')
 

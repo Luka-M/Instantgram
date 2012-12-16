@@ -6,9 +6,9 @@ urlpatterns = patterns('',
 	# /tag/XXX
     url(r'^tag/(?P<tagtext>\w+)/$', 'main.views.tag'),
     # /upload/
-    url(r'^upload/(?P<tagtext>\w+)/$', 'main.views.upload'),
+    url(r'^upload/$', 'main.views.upload'),
     # /upload2/
-    url(r'^upload2/(?P<tagtext>\w+)/$', 'main.views.upload2'),
+    url(r'^upload2/$', 'main.views.upload2'),
     # /embed/
     url(r'^embed/(?P<tagtext>\w+)/$','main.views.embed'),
     # /embedtest/

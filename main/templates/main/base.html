@@ -91,40 +91,12 @@
 
 <script src="/static/js/superfish.js" type="text/javascript"></script>
 <script src="/static/js/jquery.isotope.js" type="text/javascript"></script>
-<script src="/static/js/jquery.fitvids.js" type="text/javascript"></script>
 <script src="/static/js/fancybox/source/jquery.fancybox.pack.js" type="text/javascript"></script>
 <script src="/static/js/jquery.flexslider-min.js" type="text/javascript"></script>
 <script src="/static/js/jquery.formLabels1.0.js" type="text/javascript"></script>
-<script src="/static/js/jquery.jplayer.js" type="text/javascript"></script>
-<script src="/static/js/jquery.ias.min.js" type="text/javascript"></script>
 
 <!--[if (gte IE 6)&(lte IE 8)]><script type="text/javascript" src="js/selectivizr-min.js"></script><![endif]-->
 <script defer src="/static/js/scripts.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-jQuery.ias({
-    container   : "#entry-listing",
-    item        : ".entry",
-    pagination  : ".nav",
-    next        : "#nextpage",
-    loader  : "images/ajax-loader.gif",
-    onRenderComplete: function(items) {
-      var $newElems = jQuery(items).addClass("newItem");
-
-      $newElems.hide().imagesLoaded(function(){
-        if( jQuery(".flexslider").length > 0) {
-          jQuery(".flexslider").flexslider({
-            'controlNav': true,
-            'directionNav': true
-          });
-        }
-        jQuery(this).show();
-        jQuery('#infscr-loading').fadeOut('normal');
-        jQuery("#entry-listing").isotope('appended', $newElems );
-        loadAudioPlayer();
-      });
-    }
-    });
-</script>
 </body>
 </html>

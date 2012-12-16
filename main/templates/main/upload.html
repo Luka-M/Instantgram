@@ -5,8 +5,14 @@
 	<div class="box-hold group">
 		<article class="post-6 page type-page status-publish hentry entry box" id="post-6">
 
-			<div class="entry-content group">
-				<div id="jquery-wrapped-fine-uploader"></div>
+			<div class="entry-content group" align = "center" style="margin-left:auto;margin-right:auto;">
+			<h3>Tags</hr>
+			<br />
+			<form onsubmit="return false">
+			<input size="27" type="text" title="" id="tags" class="s" name="s"> 
+			</form>
+			<br />
+			<div id="jquery-wrapped-fine-uploader"></div>
 			</div>
 
 		</article>
@@ -16,6 +22,7 @@
  
 <script src="/static/js/jquery.fineuploader-3.0.min.js" type="text/javascript" ></script>
 
+
 <script type="text/javascript" >
 	$(document).ready(function () {
 		var lati = 1000;
@@ -24,11 +31,12 @@
 			callback: function(geolocation_data) {
 				lati = geolocation_data.latitude;
 				longi = geolocation_data.longitude;
+				$("#tags").val();
 			},
 		});
 		$('#jquery-wrapped-fine-uploader').fineUploader({
 			request: {
-					endpoint: '/upload2/{{tag}}/' + '?lat=' + lati + '&lon=' + longi
+					endpoint: '/upload2/' + '?lat=' + lati + '&lon=' + longi + "&tags=" + $("#tags").val()
 				},
 			debug: true
 		});
