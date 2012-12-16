@@ -64,14 +64,19 @@ class ImageResource(ModelResource):
         """Overriden Tastypie method for parsing JSON data from incoming request."""
         
         bundle.data['url'] = ''
+        """Image data is encoded as base64 ASCII string"""
         base64string = bundle.data['img']
-        ext = bundle.data['ext']
-        name = bundle.data['title'] + timezone.now().strftime("%Y_%m_%d_%H_%M_%S_%f") +  base64.urlsafe_b64encode(os.urandom(settings.SALT_LENGHT)) + "." + ext
-        bundle.data['title'] = name
-        fh = open(settings.MEDIA_ROOT + "images/" + name, "wb")
-        fh.write(base64string.decode('base64'))
-        fh.close()
         
-        bundle.data['md5hash'] = md5.new(base64string).hexdigest()
+        """Md5hash is created from image data, which is checked for duplicate image upload."""
+        bundle.data['md5hash'] = md5.new(base64string).hexdigest()         
+        
+        if not (Image.objects.filter(md5hash = bundle.data['md5hash']).exists()):
+            ext = bundle.data['ext']
+            """Create unique image name."""
+            name = bundle.data['title'] + timezone.now().strftime("%Y_%m_%d_%H_%M_%S_%f") +  base64.urlsafe_b64encode(os.urandom(settings.SALT_LENGHT)) + "." + ext
+            bundle.data['title'] = name
+            fh = open(settings.MEDIA_ROOT + "images/" + name, "wb")
+            fh.write(base64string.decode('base64'))
+            fh.close()
             
         return bundle;
