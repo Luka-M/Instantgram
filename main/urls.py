@@ -9,5 +9,9 @@ urlpatterns = patterns('',
     url(r'^upload/(?P<tagtext>\w+)/$', 'main.views.upload'),
     # /upload2/
     url(r'^upload2/(?P<tagtext>\w+)/$', 'main.views.upload2'),
+    # /embed/
+    url(r'^embed/(?P<tagtext>\w+)/$','main.views.embed'),
+    # /embedtest/
+    url(r'^embedtest/$','main.views.embedtest'),
 
 )

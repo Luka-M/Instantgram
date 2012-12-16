@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils import timezone
-from instantgram import settings
 from datetime import datetime, timedelta
 from main import geo
 
@@ -9,26 +8,23 @@ import main
 class TagManager(models.Manager):
     """Manager class for Tag model."""
     
-    def calcNearTags(self, latitude, longitude):
+    def calcNearTags(self, latitude, longitude, radius):
         """
         Queries db for all tags that are in certain radius of given GPS latitude and longitude.
-        Radius is given by settings entry NEAR_DISTANCE.   
         """
         myPos = geo.xyz(float(latitude), float(longitude))
         imgs = main.models.image.Image.objects.all()
-        tags = []
-        excludes = []
+        wanted_items = set()
         
         for img in imgs:
             if img.lat and img.lon:
                 imgPos = geo.xyz(float(img.lat), float(img.lon))
                 distance = geo.distance(myPos, imgPos)
-                if (distance <= settings.NEAR_DISTANCE):
+                if (distance <= radius):
                     for t in img.tags.all():
-                        if t not in tags:
-                            tags.append(t)
+                        wanted_items.add(t.pk)
         
-        return tags
+        return Tag.objects.filter(pk__in=wanted_items)
     
     def newTags(self, last):
         """

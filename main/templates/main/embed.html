@@ -1,8 +1,13 @@
-{% extends "main/base.html" %}
-{% block topnav %} <center><h1 style="margin-bottom: 0px;"> {{tag}}</h1></center>{% endblock %}
-{% block content %}
-
-
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" >
+<link rel="stylesheet" href="/static/css/style.css" type="text/css" >
+<link rel="stylesheet" href="/static/css/colors/red.css" type="text/css" >
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="/static/js/jquery.isotope.js" type="text/javascript"></script>
+</head>
+<body>
 <script>
 $(function(){
 
@@ -24,7 +29,7 @@ $(function(){
 			);
 		$('#entry-listing').prepend( $newItems).isotope( 'reloadItems').isotope({ sortBy: 'original-order' });
 
-	}
+	};
 
 	
 	function updateIsotope(){
@@ -40,7 +45,7 @@ $(function(){
 			$(this).toggleClass('large');
 			$container.isotope('reLayout');
 		});
-	}
+	};	
 
 	(function poll(){
 		setTimeout(function(){
@@ -66,13 +71,35 @@ $(function(){
 					if (!firstTime)
 						$('#entry-listing').isotope('reLayout');
 					firstTime = false;
-					interval = 5000;
+					interval = 10000;
 					poll();
 				  },
 				  error : function(xhr, status){ alert(status); }
 			});
 		}, interval);
 	})();
+function setWidth() {
+
+  // Page width calculations
+
+  jQuery(window).resize(setContainerWidth);
+  var $box = jQuery(".box");
+
+  function setContainerWidth() {
+    var columnNumber = parseInt((jQuery(window).width()+15) / ($box.outerWidth(true))),
+      containerWidth = (columnNumber * $box.outerWidth(true)) - 15;
+
+    if ( columnNumber > 1 )  {
+      jQuery("#box-container").css("width",containerWidth+'px');
+    } else {
+      jQuery("#box-container").css("width", "100%");
+    }
+
+  }
+
+  setContainerWidth();
+
+};
 
 });
 </script>
@@ -83,6 +110,5 @@ $(function(){
 
 	</div>
 </div>
-
-{% endblock %}
-
+</body>
+</html>

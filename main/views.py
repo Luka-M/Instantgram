@@ -52,3 +52,9 @@ def upload2(request, tagtext):
     image.save()
 
     return HttpResponse('{"success": true}')
+
+def embed(request, tagtext):
+    return render_to_response('main/embed.html', {"tag":tagtext})
+
+def embedtest(request):
+    return render_to_response('main/embedtest.html')
