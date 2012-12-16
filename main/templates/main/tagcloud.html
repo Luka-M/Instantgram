@@ -11,6 +11,7 @@
 	<li><a href="#" class="popular">Popular</a></li>
 	<li><a href="#" class="near">Near</a></li>
 	<li><a href="#" class="all">All</a></li>
+	<li><a href="/upload" class="upload">Upload</a></li>
 </ul>
 	</div><!-- .wrap < nav -->
 </nav>
@@ -23,7 +24,7 @@
 <script type="text/javascript">
 $(function(){
 
-	var url =  "http://127.0.0.1:8000/api/v1/tag/?format=json&limit=50"
+	var url =  "/api/v1/tag/?format=json&limit=50"
 	getTagz(url, {"last" : "24"}); // show new tagz
 	var lati = 1000;
 	var longi = 1000;
@@ -39,7 +40,7 @@ $(function(){
 	});
 	$(".new").click(function(){getTagz(url, {"last" : "24"})});
 	$(".popular").click(function(){getTagz(url, {"order_by" : "-weigth", "limit" : "20"})});
-	$(".near").click(function(){getTagz(url, {"lat" : lati, "lon" : longi})});
+	$(".near").click(function(){getTagz(url, {"lat" : lati, "lon" : longi, "rad" : "500"})});
 	$(".all").click(function(){getTagz(url, {})});
 	
 	function getTagz(servurl, data)
@@ -69,7 +70,6 @@ $(function(){
 <div class="inner-container full group">
 	<div class="box-hold group">
 		<article class="post-6 page type-page status-publish hentry entry box" id="post-6">
-
 			<div class="entry-content group">
 				<div id="clovd" style="height: 350px;"></div>
 			</div>

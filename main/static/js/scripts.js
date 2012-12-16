@@ -66,21 +66,6 @@ jQuery(document).ready(function($) {
     $.fn.formLabels();
   });
 
-  $("#jp500").jPlayer({
-    ready: function (event) {
-      $(this).jPlayer("setMedia", {
-        m4a:"http://www.jplayer.org/audio/m4a/TSP-01-Cro_magnon_man.m4a",
-        oga:"http://www.jplayer.org/audio/ogg/TSP-01-Cro_magnon_man.ogg"
-      });
-    },
-    swfPath: "js",
-    supplied: "m4a, oga",
-    wmode: "window",
-    cssSelectorAncestor: "#jp-203"
-  });
-
-  //fitVids
-  $(".inner-container .format-video .entry-image").fitVids();
 
 
 });

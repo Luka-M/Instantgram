@@ -26,14 +26,17 @@ class TagResource(ModelResource):
         
         latitude = request.GET.get('lat')
         longitude = request.GET.get('lon')
+        radius = request.GET.get('rad')
+        if not radius:
+            radius = settings.NEAR_DISTANCE
         last = request.GET.get('last')
-        if latitude and longitude:
-            queryset = Tag.objects.calcNearTags(latitude, longitude)
+        if latitude and longitude and radius:
+            queryset = Tag.objects.calcNearTags(latitude, longitude, radius)
         elif last:
             queryset = Tag.objects.newTags(int(last))
         else:
-            queryset = self.get_object_list(request).filter(**applicable_filters)
-        return queryset
+            queryset = self.get_object_list(request)
+        return queryset.filter(**applicable_filters)
         
 
 class ImageResource(ModelResource):
@@ -49,16 +52,19 @@ class ImageResource(ModelResource):
         filtering = {
             "tags": ALL,
         }
+        ordering = ["pub_date"]
         authorization = Authorization()    
     
     def apply_filters(self, request, applicable_filters):
         """Overriden Tastypie method for applying resource filter depending on type of incoming request."""        
+
         tag = request.GET.get('tag')
         if tag:
             queryset = Image.objects.filterByTags(tag)
         else:
             queryset = self.get_object_list(request)
-        return queryset
+		
+        return queryset.filter(**applicable_filters)
     
     def hydrate_img(self, bundle):
         """Overriden Tastypie method for parsing JSON data from incoming request."""

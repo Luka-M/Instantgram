@@ -9,12 +9,12 @@ class ImageManager(models.Manager):
     
     def filterByTags(self, tag):
         """Filters images by given tag."""
-        images = []
+        images = set()
         for img in Image.objects.all():
             for t in img.tags.all():
                 if t.name == tag:
-                    images.append(img)
-        return images
+                    images.add(img.pk)
+        return Image.objects.filter(pk__in=images)
 
 class Image(models.Model):
     """Model class representing image.
